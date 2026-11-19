@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Wenku8 "档案 / 编辑体" 亮色配色。
+  覆盖 legado app/src/main/res/values/colors.xml，键名与原文件一一对应，
+  不新增键、不删除键，直接替换即可编译。
+  来源数值：Wenku8_Flutter/lib/archive_design.dart + lib/app_palette.dart(seed 0xff607d71)
+-->
+<resources>
+    <color name="primary">#3A3A36</color>
+    <color name="primaryDark">#242420</color>
+    <color name="accent">#607D71</color>
+
+    <color name="disabled">#33000000</color>
+
+    <color name="divider">#1F1A1A17</color>
+
+    <color name="lightBlue_color">#607D71</color>
+
+    <color name="error">#B3261E</color>
+    <color name="success">#4F7A46</color>
+
+    <color name="night_mask">#00000000</color>
+
+    <color name="background">#F4F3EF</color>
+    <color name="background_card">#FDFCFA</color>
+    <color name="background_menu">#EDECE6</color>
+    <color name="background_prefs">#7FFDFCFA</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="transparent10">#10000000</color>
+    <color name="transparent20">#20000000</color>
+    <color name="transparent30">#30000000</color>
+    <color name="transparent50">#50000000</color>
+    <color name="photo_viewer_scrim">#E6191919</color>
+
+    <color name="highlight">#B4614A</color>
+
+    <color name="btn_bg_press">#63607D71</color>
+    <color name="btn_bg_press_2">#635F5E5A</color>
+    <color name="btn_bg_press_tp">#632C2C2A</color>
+
+    <color name="card_bg_water">#69FDFCFA</color>
+    <color name="card_border_water">#39424242</color>
+
+    <color name="tv_btn_normal_black">#737373</color>
+    <color name="tv_btn_press_black">#ADADAD</color>
+
+    <color name="primaryText">#DE1A1A17</color>
+    <color name="secondaryText">#8A6B6A64</color>
+    <color name="tv_text_summary">#8A3A3A36</color>
+    <color name="tv_text_book_detail">#DFDFDF</color>
+    <color name="menu_color_default">#3A3A36</color>
+
+    <color name="tv_text_button_nor">#FEFDF8</color>
+
+    <color name="light_translucent">#23191919</color>
+    <color name="common_gray">#E7E5DF</color>
+    <color name="darker_gray">#A8A69E</color>
+
+    <color name="bg_divider_line">#8FE2E0D8</color>
+    <color name="status_bar_bag">#19000000</color>
+    <color name="navigation_bar_bag">#F4F3EF</color>
+
+    <color name="translucent">#99343434</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
+    <color name="btn_write">#FFFFFFFF</color>
+    <color name="btn_write_press">#EFE7E5DF</color>
+
+    <!-- 控件状态色：沿用原值，避免影响开关/单选等系统表现 -->
+    <color name="ate_switch_track_disabled_light">#1F000000</color>
+    <color name="ate_button_disabled_light">#1F000000</color>
+    <color name="ate_control_disabled_light">#43000000</color>
+    <color name="ate_switch_track_normal_light">#43000000</color>
+    <color name="ate_button_text_disabled_light">#43000000</color>
+    <color name="ate_text_disabled_light">#61000000</color>
+    <color name="ate_secondary_text_light">#8A000000</color>
+    <color name="ate_icon_light">#8A000000</color>
+    <color name="ate_control_normal_light">#8A000000</color>
+    <color name="ate_primary_text_light">#DE000000</color>
+    <color name="ate_switch_thumb_normal_light">#FFFAFAFA</color>
+    <color name="ate_switch_thumb_disabled_light">#FFBDBDBD</color>
+    <color name="ate_navigation_drawer_selected_light">#E8E6DF</color>
+
+    <color name="ate_switch_track_disabled_dark">#1AFFFFFF</color>
+    <color name="ate_button_disabled_dark">#1F000000</color>
+    <color name="ate_control_disabled_dark">#4DFFFFFF</color>
+    <color name="ate_switch_track_normal_dark">#4DFFFFFF</color>
+    <color name="ate_button_text_disabled_dark">#4DFFFFFF</color>
+    <color name="ate_text_disabled_dark">#4DFFFFFF</color>
+    <color name="ate_secondary_text_dark">#B3FFFFFF</color>
+    <color name="ate_icon_dark">#B3FFFFFF</color>
+    <color name="ate_control_normal_dark">#B3FFFFFF</color>
+    <color name="ate_primary_text_dark">#FFFFFFFF</color>
+    <color name="ate_switch_thumb_normal_dark">#FFBDBDBD</color>
+    <color name="ate_switch_thumb_disabled_dark">#FF424242</color>
+    <color name="ate_navigation_drawer_selected_dark">#202020</color>
+
+    <color name="book_ant_10">#141414</color>
+    <color name="reviewContentText">#CC1A1A17</color>
+    <color name="reviewCardStroke">#161A1A17</color>
+    <color name="reviewBadgeBg">#12607D71</color>
+</resources>

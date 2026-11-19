@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  追加到 app/src/main/res/values/，不要覆盖原文件。
+  与 02-res/values/colors.xml（覆盖用）配合使用。
+-->
+<resources>
+    <dimen name="archive_panel_radius">4dp</dimen>
+    <dimen name="archive_cover_radius">3dp</dimen>
+    <dimen name="archive_gutter">24dp</dimen>
+    <dimen name="archive_grid_step">48dp</dimen>
+
+    <!-- Wenku8: ArchiveDesign.codeStyle() — monospace / 9sp / letterSpacing 1.05sp≈0.12em / w500 -->
+    <style name="Archive.CodeText" parent="">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:letterSpacing">0.12</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/secondaryText</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <!-- Wenku8: ArchiveMasthead — 23sp / w800 / letterSpacing -0.7sp≈-0.03em -->
+    <style name="Archive.MastheadTitle" parent="">
+        <item name="android:textSize">23sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textFontWeight">800</item>
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <!-- Wenku8: ArchiveSection — 18sp / w700 / letterSpacing -0.3sp≈-0.017em -->
+    <style name="Archive.SectionTitle" parent="">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:letterSpacing">-0.017</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+</resources>

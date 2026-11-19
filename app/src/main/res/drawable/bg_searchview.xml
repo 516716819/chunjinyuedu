@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 档案风搜索框：登记表式方框，浅色填充 + 1dp 细描边 + 4dp 小圆角。
+     原实现用 @color/transparent10（10% 白）配深色标题栏；
+     透明标题栏下背景变浅，10% 白几乎不可见，故改为不透明填充。 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- 角度 -->
+    <corners android:radius="4dp"/>
+    <!-- 填充色 -->
+    <solid android:color="@color/background_card" />
+    <!-- 描边 设置线宽及颜色 -->
+    <stroke
+        android:color="@color/divider"
+        android:width="1dp" />
+</shape>

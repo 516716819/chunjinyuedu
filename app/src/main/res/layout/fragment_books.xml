@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  书架页（档案风）：顶部"书脊书架" + 下方书籍列表。
+  书脊由 ArchiveSpineShelfView 自绘（对应 Wenku8 的 ArchiveFileCarousel）：
+  一排竖立的书脊，选中那本向前抽出并向右展开封面，左右滑动切换。
+  原有 id（refresh_layout / rv_bookshelf / tv_empty_msg）保持不变。
+  下方列表 / 网格仍由原 RecyclerView 承担，与书脊书架双向联动。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/pick_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="248dp">
+
+            <io.legado.app.ui.widget.archive.ArchiveBackdropView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                apps:archiveFilmColor="@color/background_card"
+                apps:archiveGridStep="48dp" />
+
+            <io.legado.app.ui.widget.archive.ArchiveSpineShelfView
+                android:id="@+id/spine_shelf"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="14dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_pick_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:textColor="@color/primaryText"
+                    android:textSize="19sp"
+                    tools:text="《遮天》（精校版全本）" />
+
+                <TextView
+                    android:id="@+id/tv_pick_meta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:ellipsize="end"
+                    android:fontFamily="monospace"
+                    android:includeFontPadding="false"
+                    android:letterSpacing="0.04"
+                    android:singleLine="true"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="11sp"
+                    tools:text="辰东 · 已完结" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/iv_pick_open"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/book_info"
+                android:gravity="center"
+                android:text="\u2197"
+                android:textColor="@color/primaryText"
+                android:textSize="19sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="2dp">
+
+            <ImageView
+                android:id="@+id/iv_pick_prev"
+                android:layout_width="38dp"
+                android:layout_height="30dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/prev_page"
+                android:padding="9dp"
+                android:scaleX="-1"
+                android:src="@drawable/ic_arrow_right"
+                apps:tint="@color/secondaryText" />
+
+            <TextView
+                android:id="@+id/tv_pick_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:includeFontPadding="false"
+                android:letterSpacing="0.12"
+                android:textColor="@color/secondaryText"
+                android:textSize="11sp"
+                tools:text="01 / 02" />
+
+            <ImageView
+                android:id="@+id/iv_pick_next"
+                android:layout_width="38dp"
+                android:layout_height="30dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/next_page"
+                android:padding="9dp"
+                android:src="@drawable/ic_arrow_right"
+                apps:tint="@color/secondaryText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="14dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="6dp">
+
+            <TextView
+                android:id="@+id/tv_pick_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:includeFontPadding="false"
+                android:letterSpacing="0.18"
+                android:text="@string/archive_shelf_label"
+                android:textColor="@color/secondaryText"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/tv_pick_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="monospace"
+                android:includeFontPadding="false"
+                android:letterSpacing="0.08"
+                android:textColor="@color/secondaryText"
+                android:textSize="9sp"
+                tools:text="012" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@color/divider" />
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginStart="10dp"
+                android:background="@color/primaryText" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingTop="2dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="6dp"
+            android:text="@string/bookshelf_all_books"
+            android:textColor="@color/primaryText"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <io.legado.app.ui.widget.recycler.scroller.FastScrollRecyclerView
+                android:id="@+id/rv_bookshelf"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                tools:listitem="@layout/item_bookshelf_list" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/tv_empty_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="@string/bookshelf_empty"
+            android:visibility="gone"
+            tools:text="TextView" />
+
+    </FrameLayout>
+
+</LinearLayout>

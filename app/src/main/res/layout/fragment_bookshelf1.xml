@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  档案风书架页（POC Stage 2）。
+  原结构是 LinearLayout[TitleBar, include shelf_header, ViewPager]。
+  改动：外面套一层 FrameLayout，底层铺 ArchiveBackdropView 网格底纹（只覆盖顶部 200dp）。
+  TitleBar 在 transparentNavBar=true 时自身背景透明（见 TitleBar.kt 200-207 行），
+  因此底纹会从状态栏下方一直透到标题栏区域，形成 Wenku8 的"整片暖纸 + 墨色大字"效果。
+  三个原有 id（title_bar / shelf_header / view_pager_bookshelf）全部保留，代码无需改动。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <io.legado.app.ui.widget.archive.ArchiveBackdropView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="top"
+        app:archiveFilmColor="@color/background_card"
+        app:archiveGridStep="48dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <io.legado.app.ui.widget.TitleBar
+            android:id="@+id/title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:attachToActivity="false"
+            app:contentLayout="@layout/view_tab_layout_min"
+            app:title="@string/bookshelf" />
+
+        <include
+            android:id="@+id/shelf_header"
+            layout="@layout/view_bookshelf_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager_bookshelf"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</FrameLayout>

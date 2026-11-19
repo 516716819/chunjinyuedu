@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 详情页目录条目：等宽序号 + 章节名 + 细箭头（Wenku8 的 01 / 第1章 行） -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_toc_index"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:includeFontPadding="false"
+        android:textColor="@color/secondaryText"
+        android:textSize="10sp"
+        tools:text="01" />
+
+    <TextView
+        android:id="@+id/tv_toc_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:singleLine="true"
+        android:textColor="@color/primaryText"
+        android:textSize="14sp"
+        tools:text="第1章 星空中的青铜巨棺" />
+
+    <ImageView
+        android:id="@+id/iv_toc_arrow"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/archive_toc_title"
+        android:padding="4dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_arrow_right"
+        apps:tint="@color/secondaryText" />
+
+</LinearLayout>

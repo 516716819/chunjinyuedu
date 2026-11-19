@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 追加到 app/src/main/res/values/，供 03-kotlin 下的两个自定义 View 读取 -->
+<resources>
+    <declare-styleable name="RegistrationFrameLayout">
+        <attr name="archiveMarkLength" format="dimension" />
+        <attr name="archiveMarkInset" format="dimension" />
+        <attr name="archiveMarkStroke" format="dimension" />
+        <attr name="archiveMarkColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ArchiveBackdropView">
+        <attr name="archiveGridStep" format="dimension" />
+        <attr name="archiveFilmColor" format="color" />
+    </declare-styleable>
+</resources>

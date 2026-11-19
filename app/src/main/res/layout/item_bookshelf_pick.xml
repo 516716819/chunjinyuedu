@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  顶部选书条的单本书条目（Wenku8 书架"抽出"形态的横向版）。
+  宽度固定 96dp，选中项由 BooksPickAdapter 放大并加描边，未选中项缩小压暗。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pick_root"
+    android:layout_width="96dp"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/fl_pick_face"
+            android:layout_width="86dp"
+            android:layout_height="118dp">
+
+            <io.legado.app.ui.widget.image.CoverImageView
+                android:id="@+id/iv_pick_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_cover_default"
+                tools:ignore="ImageContrastCheck" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/pb_pick_progress"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_gravity="bottom"
+                android:visibility="gone"
+                app:indicatorColor="@color/accent"
+                app:trackColor="@color/transparent20"
+                app:trackThickness="2dp"
+                tools:progress="60"
+                tools:visibility="visible" />
+
+            <View
+                android:id="@+id/vw_pick_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_archive_pick_frame"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+        <io.legado.app.ui.widget.archive.ArchiveCodeLabel
+            android:id="@+id/tv_pick_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp" />
+
+        <TextView
+            android:id="@+id/tv_pick_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="@color/primaryText"
+            android:textSize="10sp"
+            tools:text="书名" />
+
+    </LinearLayout>
+
+</FrameLayout>
