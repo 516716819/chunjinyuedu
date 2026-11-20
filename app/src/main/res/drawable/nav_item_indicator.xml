@@ -5,6 +5,6 @@
     android:insetTop="16dp"
     android:insetBottom="16dp">
     <shape android:shape="oval">
-        <solid android:color="#1C1C1A" />
+        <solid android:color="@android:color/transparent" />
     </shape>
 </inset>
