@@ -1,5 +1,6 @@
 package io.legado.app.ui.widget.archive
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapShader
@@ -9,8 +10,12 @@ import android.graphics.LinearGradient
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.Rect
 import android.graphics.Shader
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
+import android.view.PixelCopy
 import android.view.View
 import androidx.core.content.ContextCompat
 import io.legado.app.R
@@ -86,35 +91,36 @@ class ArchiveFrostedView @JvmOverloads constructor(
         postDelayed(task, 220L)
     }
 
+    private val mainHandler = Handler(Looper.getMainLooper())
+
     private fun capture() {
         val view = target ?: return
         if (width <= 0 || height <= 0) return
-        // 第一跳：1/3，第二跳：1/9。两跳之后放大回去的过渡带足够宽，接近高斯模糊。
-        val stage1 = 3f
-        val stage2 = 3f
-        val w1 = (width / stage1).toInt().coerceAtLeast(1)
-        val h1 = (height / stage1).toInt().coerceAtLeast(1)
-        val mid = Bitmap.createBitmap(w1, h1, Bitmap.Config.ARGB_8888)
-        val midCanvas = Canvas(mid)
-        midCanvas.scale(1f / stage1, 1f / stage1)
-        // 只截 target 中与本 View 重叠的那段区域：把 target 画面平移到本 View 坐标系，
-        // 使得 target 上位于 (left, top) 处的像素恰好落到本 View 的 (0,0)。
-        // 例如本 View 是贴底的底部毛玻璃条时，(left, top) 指向 target 底部同高度处，
-        // 于是 target 底部的内容会被画进来，整条毛玻璃透出的是正下方滚过的内容。
-        midCanvas.translate((left - view.left).toFloat(), (top - view.top).toFloat())
-        runCatching { view.draw(midCanvas) }
-
-        val w2 = (w1 / stage2).toInt().coerceAtLeast(1)
-        val h2 = (h1 / stage2).toInt().coerceAtLeast(1)
-        val small = Bitmap.createBitmap(w2, h2, Bitmap.Config.ARGB_8888)
-        val smallCanvas = Canvas(small)
-        smallCanvas.scale(w2 / w1.toFloat(), h2 / h1.toFloat())
-        smallCanvas.drawBitmap(mid, 0f, 0f, paint)
-        mid.recycle()
-
-        snapshot?.recycle()
-        snapshot = small
-        invalidate()
+        val activity = context as? Activity ?: return
+        // 用 PixelCopy 直接拷贝窗口在本 View 区域的像素。之前用 target.draw(软件Canvas)
+        // 拿不到硬件加速层的 Fragment 内容，抓到的永远是空白，毛玻璃透不出东西。
+        val loc = IntArray(2)
+        getLocationInWindow(loc)
+        val src = Rect(loc[0], loc[1], loc[0] + width, loc[1] + height)
+        // 直接拷到 1/6 尺寸：一步完成降采样，放大回去自带模糊（毛玻璃）
+        val bw = (width / 6).toInt().coerceAtLeast(1)
+        val bh = (height / 6).toInt().coerceAtLeast(1)
+        val bmp = Bitmap.createBitmap(bw, bh, Bitmap.Config.ARGB_8888)
+        runCatching {
+            PixelCopy.request(
+                activity.window, src, bmp,
+                { result ->
+                    if (result == PixelCopy.SUCCESS) {
+                        snapshot?.recycle()
+                        snapshot = bmp
+                        invalidate()
+                    } else {
+                        bmp.recycle()
+                    }
+                },
+                mainHandler
+            )
+        }.onFailure { bmp.recycle() }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -139,8 +145,9 @@ class ArchiveFrostedView @JvmOverloads constructor(
             paint.shader = null
         }
 
-        // 纸色 tint：压住底下的字形轮廓，只留色块，才是玻璃而不是半透明蒙版
-        tint.color = withAlpha(surfaceColor, 0.66f)
+        // 纸色 tint：压住底下的字形轮廓，只留色块，才是玻璃而不是半透明蒙版。
+        // 0.30 让滚动内容透得出来；原来 0.66 几乎全白，看不出毛玻璃。
+        tint.color = withAlpha(surfaceColor, 0.30f)
         canvas.drawRect(0f, 0f, w, h, tint)
 
         // 玻璃厚度：顶部 45% 高度叠一层很淡的白，模拟受光面

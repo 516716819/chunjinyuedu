@@ -281,9 +281,6 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
                 }
             }
             view.doOnLayout {
-                val location = IntArray(2)
-                view.getLocationInWindow(location)
-                val keyboardTop = window.decorView.height - windowInsets.imeHeight
                 // 毛玻璃底座跟随导航真实高度，同样用外边距上移，保持与胶囊对齐
                 binding.bottomFrost.doOnLayout {
                     binding.bottomFrost.layoutParams =
@@ -294,10 +291,9 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
                     binding.bottomFrost.cornerRadius = view.height / 2f
                     binding.bottomFrost.requestLayout()
                 }
-                // 胶囊距屏幕底还有一段间距，内容预留高度要把间距算进去，避免被悬浮层遮住
-                viewPagerMain.bottomPadding = (view.height + pillMargin + navHeight).coerceAtLeast(
-                    (location[1] - keyboardTop).coerceAtLeast(0)
-                )
+                // 只避让系统导航条，不再为胶囊预留整块高度：否则列表内容画不到胶囊底部区域，
+                // 毛玻璃 capture 抓到的永远是空白，透不出背后内容。悬浮导航本就应盖在滚动内容之上。
+                viewPagerMain.bottomPadding = navHeight
                 if (windowInsets.imeHeight > 0) viewPagerMain.doOnLayout {
                     currentFocus?.takeIf { it.onCheckIsTextEditor() }?.let { input ->
                         input.requestRectangleOnScreen(Rect(0, 0, input.width, input.height), true)
