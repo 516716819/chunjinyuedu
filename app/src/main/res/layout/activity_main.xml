@@ -14,7 +14,7 @@
     <!-- 悬浮胶囊毛玻璃：截取 view_pager_main 底部画面做两跳降采样模糊，透出滚动内容 -->
     <io.legado.app.ui.widget.archive.ArchiveFrostedView
         android:id="@+id/bottom_frost"
-        android:layout_width="280dp"
+        android:layout_width="320dp"
         android:layout_height="64dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="16dp"
@@ -22,7 +22,7 @@
 
     <io.legado.app.lib.theme.view.ThemeBottomNavigationVIew
         android:id="@+id/bottom_navigation_view"
-        android:layout_width="280dp"
+        android:layout_width="320dp"
         android:layout_height="64dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="16dp"
