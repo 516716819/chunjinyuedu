@@ -269,24 +269,33 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
             bottomNavigationView.setBackgroundResource(R.drawable.bg_eink_border_top)
         }
         bottomNavigationView.setOnApplyWindowInsetsListenerCompat { view, windowInsets ->
-            val height = windowInsets.navigationBarHeight
-            view.bottomPadding = height
+            val navHeight = windowInsets.navigationBarHeight
+            val pillMargin = (16 * resources.displayMetrics.density).toInt()
+            // 导航条高度用「外边距」把整个胶囊上移，不能塞进 BottomNavigationView 的 bottomPadding：
+            // 后者会压缩它的内部内容区，在导航条较高的机型上把图标纵向压扁成一条线。
+            (view.layoutParams as ViewGroup.MarginLayoutParams).let { lp ->
+                val target = pillMargin + navHeight
+                if (lp.bottomMargin != target) {
+                    lp.bottomMargin = target
+                    view.layoutParams = lp
+                }
+            }
             view.doOnLayout {
                 val location = IntArray(2)
                 view.getLocationInWindow(location)
                 val keyboardTop = window.decorView.height - windowInsets.imeHeight
-                // 毛玻璃底座跟随底部导航的真实高度（含导航栏 inset），并给 ViewPager 内容预留同等高度
+                // 毛玻璃底座跟随导航真实高度，同样用外边距上移，保持与胶囊对齐
                 binding.bottomFrost.doOnLayout {
                     binding.bottomFrost.layoutParams =
                         (binding.bottomFrost.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                            bottomMargin = pillMargin + navHeight
                             this.height = view.height
                         }
                     binding.bottomFrost.cornerRadius = view.height / 2f
                     binding.bottomFrost.requestLayout()
                 }
                 // 胶囊距屏幕底还有一段间距，内容预留高度要把间距算进去，避免被悬浮层遮住
-                val pillMargin = (16 * resources.displayMetrics.density).toInt()
-                viewPagerMain.bottomPadding = (view.height + pillMargin).coerceAtLeast(
+                viewPagerMain.bottomPadding = (view.height + pillMargin + navHeight).coerceAtLeast(
                     (location[1] - keyboardTop).coerceAtLeast(0)
                 )
                 if (windowInsets.imeHeight > 0) viewPagerMain.doOnLayout {
@@ -295,7 +304,7 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
                     }
                 }
             }
-            windowInsets.inset(0, 0, 0, height)
+            windowInsets.inset(0, 0, 0, navHeight)
         }
     }
 
