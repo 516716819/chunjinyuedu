@@ -165,6 +165,12 @@ class CrashHandler(val context: Context) : Thread.UncaughtExceptionHandler {
                         .writeText(crashLog)
                 }
             }
+            // 保底：外部缓存可能被系统清理或不可写，再往内部 filesDir 写一份，
+            // 保证 run-as 一定能导出崩溃堆栈用于定位。
+            kotlin.runCatching {
+                FileUtils.createFileIfNotExist(appCtx.filesDir, "crash", fileName)
+                    .writeText(crashLog)
+            }
         }
 
         /**

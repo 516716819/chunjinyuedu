@@ -120,6 +120,9 @@ class ArchiveFrostedView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         val w = width.toFloat()
         val h = height.toFloat()
+        // 返回首页/重建 View 时尚未布局，宽高可能为 0，
+        // 此时 addRoundRect / LinearGradient / setScale(0) 都会抛异常。
+        if (w <= 0f || h <= 0f) return
         clip.reset()
         clip.addRoundRect(0f, 0f, w, h, cornerRadius, cornerRadius, Path.Direction.CW)
 

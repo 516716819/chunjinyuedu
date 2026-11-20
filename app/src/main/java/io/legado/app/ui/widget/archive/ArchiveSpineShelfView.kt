@@ -92,7 +92,10 @@ class ArchiveSpineShelfView @JvmOverloads constructor(
     private var baseY = 0f
     private var bookHeight = 0f
     private var spineTop = 0f
-    private var coverH = 0f
+    // coverHeight() 只依赖固定的 coverW，不依赖布局；必须在声明处初始化，
+    // 否则 submit() 先于 onSizeChanged 到达时，loadCover 会把 0 传给 Glide 的
+    // CustomTarget，触发 Bitmap.createBitmap(w, 0) 的 IllegalArgumentException。
+    private var coverH = coverHeight()
 
     private val scroller = OverScroller(context)
     private var velocityTracker: VelocityTracker? = null
@@ -448,10 +451,13 @@ class ArchiveSpineShelfView @JvmOverloads constructor(
         if (path.isBlank()) return
         Glide.with(this).asBitmap()
             .load(path)
-            .into(object : CustomTarget<Bitmap>(coverW.toInt(), coverH.toInt()) {
+            .into(object : CustomTarget<Bitmap>(
+                coverW.toInt().coerceAtLeast(1),
+                coverH.toInt().coerceAtLeast(1)
+            ) {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     coverCache[book.bookUrl] = resource
-                    invalidate()
+                    if (isAttachedToWindow) invalidate()
                 }
 
                 override fun onLoadCleared(placeholder: android.graphics.drawable.Drawable?) = Unit
