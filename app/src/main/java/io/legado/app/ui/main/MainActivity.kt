@@ -615,7 +615,7 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
     /** 悬浮胶囊导航的固定配色，不跟随主题；applySkin 会重置 tint，所以在其后再调用一次 */
     private fun applyPillNavStyle() {
         binding.bottomNavigationView.apply {
-            labelVisibilityMode = BottomNavigationView.LABEL_VISIBILITY_UNLABELED
+            labelVisibilityMode = BottomNavigationView.LABEL_VISIBILITY_LABELED
             itemIconTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.nav_icon_tint)
             itemTextColor = ContextCompat.getColorStateList(this@MainActivity, R.color.nav_text_tint)
             itemBackground = ContextCompat.getDrawable(this@MainActivity, R.drawable.nav_item_bg)

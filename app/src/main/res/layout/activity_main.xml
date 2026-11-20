@@ -33,7 +33,7 @@
         app:itemIconSize="20dp"
         app:itemIconTint="@color/nav_icon_tint"
         app:itemTextColor="@color/nav_text_tint"
-        app:labelVisibilityMode="unlabeled"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/main_bnv" />
 
 </FrameLayout>
