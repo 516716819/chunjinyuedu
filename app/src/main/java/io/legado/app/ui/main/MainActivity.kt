@@ -7,9 +7,11 @@ import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.view.doOnLayout
 import androidx.core.view.get
 import androidx.core.view.postDelayed
@@ -257,8 +259,10 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
         viewPagerMain.adapter = adapter
         viewPagerMain.addOnPageChangeListener(PageChangeCallback())
         ArchivePagerEasing.apply(viewPagerMain)
-        bottomFrost.cornerRadius = 0f
+        // 悬浮胶囊：圆角取高度一半，图标/文字用固定的黑白配色，不跟随主题主色
+        bottomFrost.cornerRadius = 32f * resources.displayMetrics.density
         bottomFrost.attachTo(viewPagerMain)
+        this@MainActivity.applyPillNavStyle()
         bottomNavigationView.setOnNavigationItemSelectedListener(this@MainActivity)
         bottomNavigationView.setOnNavigationItemReselectedListener(this@MainActivity)
         if (AppConfig.isEInkMode) {
@@ -277,11 +281,12 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
                         (binding.bottomFrost.layoutParams as ViewGroup.MarginLayoutParams).apply {
                             this.height = view.height
                         }
+                    binding.bottomFrost.cornerRadius = view.height / 2f
                     binding.bottomFrost.requestLayout()
                 }
-                // The pager now overlays above the bottom navigation; reserve its height so
-                // scrolling content isn't hidden behind the frosted bar.
-                viewPagerMain.bottomPadding = view.height.coerceAtLeast(
+                // 胶囊距屏幕底还有一段间距，内容预留高度要把间距算进去，避免被悬浮层遮住
+                val pillMargin = (16 * resources.displayMetrics.density).toInt()
+                viewPagerMain.bottomPadding = (view.height + pillMargin).coerceAtLeast(
                     (location[1] - keyboardTop).coerceAtLeast(0)
                 )
                 if (windowInsets.imeHeight > 0) viewPagerMain.doOnLayout {
@@ -607,10 +612,21 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
         }
     }
 
+    /** 悬浮胶囊导航的固定配色，不跟随主题；applySkin 会重置 tint，所以在其后再调用一次 */
+    private fun applyPillNavStyle() {
+        binding.bottomNavigationView.apply {
+            labelVisibilityMode = BottomNavigationView.LABEL_VISIBILITY_LABELED
+            itemIconTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.nav_icon_tint)
+            itemTextColor = ContextCompat.getColorStateList(this@MainActivity, R.color.nav_text_tint)
+            itemBackground = ContextCompat.getDrawable(this@MainActivity, R.drawable.nav_item_bg)
+        }
+    }
+
     private fun upBottomBarSkin() {
         val skin = BottomBarSkinManager.active
         if (skin.isEmpty() || !BottomBarSkinManager.hasSkin(skin)) {
             binding.bottomNavigationView.applySkin(null, 0)
+            applyPillNavStyle()
             return
         }
         val sizePx = 30.dpToPx()
